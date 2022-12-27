@@ -1,5 +1,7 @@
 #!/bin/bash
 
+{% raw %}
+
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 if [ "$1" = new_game ]; then
@@ -27,3 +29,4 @@ if [ "$1" = status ]; then
   curl -s -S "https://coinballer.net/status?$game_id"
 fi
 
+{% endraw %}
