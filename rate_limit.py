@@ -8,7 +8,7 @@ def rate_limit():
     try:
       [rate_limit] = session.query(RateLimit).where(RateLimit.address == request.remote_addr)
     except:
-      rate_limit = RateLimit(address=address, timestamp=0)
+      rate_limit = RateLimit(address=request.remote_addr, timestamp=0)
       session.add(rate_limit)
       session.commit()
     if rate_limit.timestamp + 1 > time():
