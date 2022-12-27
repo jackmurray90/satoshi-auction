@@ -1,9 +1,8 @@
 from flask import Flask, request, render_template, make_response
-from util import valid_bitcoin_address
 from db import Game, RateLimit, engine
 from sqlalchemy.orm import Session
 from rate_limit import rate_limit
-from bitcoin import get_new_address
+from bitcoin import get_new_address, valid_bitcoin_address
 
 app = Flask(__name__)
 
