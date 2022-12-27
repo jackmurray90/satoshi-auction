@@ -1,0 +1,11 @@
+
+Greetings, welcome to CoinBaller.
+
+Thanks for making a new game with us and we hope you will enjoy the experience.
+
+Players can check the status of the game at https://coinballer.new/status?game_id={{game_id}}.
+
+Please share this with the other players to commence the game.
+
+We wish you the best of luck.
+
