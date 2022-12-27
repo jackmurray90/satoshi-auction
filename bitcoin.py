@@ -88,7 +88,7 @@ if __name__ == '__main__':
           player.bet += amount
           player.game.height = height
           session.commit()
-        games = session.query(Game).where(Game.height == height - 144)
+        games = session.query(Game).where(Game.height == height - 4383)
         for game in games:
           winners = []
           for player in game.players:
