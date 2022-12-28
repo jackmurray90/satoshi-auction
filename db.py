@@ -20,7 +20,6 @@ class Player(Base):
   betting_address = Column(String)
   payout_address = Column(String)
   bet = Column(Numeric(16, 8))
-  players = relationship('Player')
   game = relationship('Game', back_populates='players')
 
 class Height(Base):
