@@ -56,7 +56,7 @@ def round_down(self, amount):
 if __name__ == '__main__':
   with Session(create_engine(DB)) as session:
     while True:
-      [height] = session.query(Height).all()
+      height = session.query(Height).one().height
       while height < get_height():
         for address, amount in get_incoming_txs(asset.height):
           try:
