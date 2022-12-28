@@ -12,21 +12,6 @@ from hashlib import sha256
 
 MINCONF = 2
 
-digits58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-
-def decode_base58(bc, length):
-  n = 0
-  for char in bc:
-    n = n * 58 + digits58.index(char)
-  return n.to_bytes(length, 'big')
-
-def valid_bitcoin_address(bc):
-  try:
-    bcbytes = decode_base58(bc, 25)
-    return bcbytes[-4:] == sha256(sha256(bcbytes[:-4]).digest()).digest()[:4]
-  except Exception:
-    return False
-
 def connect():
   rpc = AuthServiceProxy(BITCOIN)
   try:
@@ -35,7 +20,7 @@ def connect():
     pass
   return rpc
 
-def height():
+def get_height():
   while True:
     try:
       rpc = connect()
@@ -79,7 +64,7 @@ if __name__ == '__main__':
   with Session(create_engine(DB)) as session:
     while True:
       [height] = session.query(Height).all()
-      while height < blockchain_height():
+      while height < get_height():
         for address, amount in get_incoming_txs(asset.height):
           try:
             [player] = session.query(Player).where(Player.betting_address == address)
@@ -88,7 +73,7 @@ if __name__ == '__main__':
           player.bet += amount
           player.game.height = height
           session.commit()
-        games = session.query(Game).where(Game.height == height - 4383)
+        games = session.query(Game).where(Game.height == height - 144)
         for game in games:
           winners = []
           for player in game.players:
@@ -97,4 +82,6 @@ if __name__ == '__main__':
           payout = round_down(sum([p.bet for p in players]) * Decimal('0.98') / len(winners))
           for winner in winners:
             send(winner.payout_address, payout)
+          game.finished = True
+          session.commit()
         sleep(1)

@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, Numeric, Column, String, ForeignKey, create_engine
+from sqlalchemy import Integer, Boolean, Numeric, Column, String, ForeignKey, create_engine
 from sqlalchemy.orm import declarative_base, relationship
 from env import DB
 
@@ -10,6 +10,7 @@ class Game(Base):
   id = Column(Integer, primary_key=True)
   height = Column(Integer)
   players = relationship('Player')
+  finished = Column(Boolean)
 
 class Player(Base):
   __tablename__ = 'players'
