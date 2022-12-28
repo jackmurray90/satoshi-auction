@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response
+from flask import Flask, redirect, request, render_template, make_response
 from db import Game, Player, RateLimit, engine
 from sqlalchemy.orm import Session
 from rate_limit import rate_limit
