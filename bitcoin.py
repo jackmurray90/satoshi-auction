@@ -21,7 +21,7 @@ def get_height():
     except CannotSendRequest:
       sleep(1)
 
-def get_incoming_txs(self, height):
+def get_incoming_txs(height):
   while True:
     try:
       rpc = AuthServiceProxy(BITCOIN)
@@ -34,7 +34,7 @@ def get_incoming_txs(self, height):
     except CannotSendRequest:
       sleep(1)
 
-def send(self, address, amount):
+def send(address, amount):
   while True:
     try:
       rpc = AuthServiceProxy(BITCOIN)
@@ -42,7 +42,7 @@ def send(self, address, amount):
     except CannotSendRequest:
       sleep(1)
 
-def get_new_address(self):
+def get_new_address():
   while True:
     try:
       rpc = AuthServiceProxy(BITCOIN)
@@ -50,7 +50,7 @@ def get_new_address(self):
     except CannotSendRequest:
       sleep(1)
 
-def round_down(self, amount):
+def round_down(amount):
   return floor(amount * 10**8) / Decimal(10**8)
 
 if __name__ == '__main__':
