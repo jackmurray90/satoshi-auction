@@ -12,18 +12,11 @@ from hashlib import sha256
 
 MINCONF = 2
 
-def connect():
-  rpc = AuthServiceProxy(BITCOIN)
-  try:
-    rpc.loadwallet('coinballer')
-  except JSONRPCException:
-    pass
-  return rpc
 
 def get_height():
   while True:
     try:
-      rpc = connect()
+      rpc = AuthServiceProxy(BITCOIN)
       return rpc.getblockcount() - MINCONF
     except CannotSendRequest:
       sleep(1)
@@ -31,7 +24,7 @@ def get_height():
 def get_incoming_txs(self, height):
   while True:
     try:
-      rpc = connect()
+      rpc = AuthServiceProxy(BITCOIN)
       txs = rpc.listsinceblock(rpc.getblockhash(height-1))
       incoming_txs = []
       for tx in txs['transactions']:
@@ -44,7 +37,7 @@ def get_incoming_txs(self, height):
 def send(self, address, amount):
   while True:
     try:
-      rpc = connect()
+      rpc = AuthServiceProxy(BITCOIN)
       rpc.send({address: amount})
     except CannotSendRequest:
       sleep(1)
@@ -52,7 +45,7 @@ def send(self, address, amount):
 def get_new_address(self):
   while True:
     try:
-      rpc = connect()
+      rpc = AuthServiceProxy(BITCOIN)
       return rpc.getnewaddress()
     except CannotSendRequest:
       sleep(1)

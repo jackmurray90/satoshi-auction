@@ -62,5 +62,5 @@ def games():
       'game_id': game.id,
       'pot': calculate_pot(game),
       'status': 'Active' if not game.finished else 'Finished'
-      }]
+      } for game in games]
     return render_template('games.html', games=games)
