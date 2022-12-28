@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, abort
 from sqlalchemy.orm import Session
 from db import engine, RateLimit
 from time import time
