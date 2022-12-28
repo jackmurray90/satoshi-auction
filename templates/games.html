@@ -14,8 +14,8 @@
 <p>Click <a href="/">here</a> to read the rules.</p>
 
 <table>
-  <tr><th>Game id</th><th>Total pot size</th><th>Status</th></tr>
+  <tr><th>Game</th><th>Total pot size</th><th>Status</th></tr>
   {% for game in games %}
-  <tr><td>{{ game['game_id'] }}</td><td>{{ '%0.8f'|format(game['pot']) }} BTC</td><td>{{ game['status'] }}</td></tr>
+  <tr><td><a href="/game/{{ game['game_id'] }}">Game {{ game['game_id'] }}</a></td><td>{{ '%0.8f'|format(game['pot']) }} BTC</td><td>{{ game['status'] }}</td></tr>
   {% endfor %}
 </table>

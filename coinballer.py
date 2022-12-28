@@ -54,7 +54,7 @@ def game(game_id):
 def games():
   rate_limit()
   with Session(engine) as session:
-    games = session.query(Game).where(Game.finished == False)
+    games = session.query(Game).order_by(Game.finished.asc()).all()
     def calculate_pot(game):
       players = session.query(Player).where(Player.game == game)
       return sum([player.bet for player in players])
