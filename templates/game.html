@@ -13,7 +13,7 @@
 
 <p>Thanks for making a new game with us and we hope you will enjoy the experience.</p>
 
-<p>Players can check the status of the game at <a href="/game/{game_id}">https://coinballer.net/game/{game_id}</a>.</p>
+<p>Players can check the status of the game at <a href="/game/{{game_id}}">https://coinballer.net/game/{{game_id}}</a>.</p>
 
 <p>The rules can be read <a href="/">here</a>.</p>
 
@@ -28,6 +28,6 @@
 <table>
   <tr><th>Betting address</th><th>Payout address</th><th>Total bet</th></tr>
   {% for player in players %}
-  <tr><td>{{ player['betting_address'] }}</td><td>{{ player['payout_address'] }}</td><td>{{ player['bet'] }}</td></tr>
+  <tr><td>{{ player['betting_address'] }}</td><td>{{ player['payout_address'] }} BTC</td><td>{{ '0.8%'|format(player['bet']) }}</td></tr>
   {% endfor %}
 </table>
