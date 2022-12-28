@@ -28,6 +28,6 @@
 <table>
   <tr><th>Betting address</th><th>Payout address</th><th>Total bet</th></tr>
   {% for player in players %}
-  <tr><td>{{ player['betting_address'] }}</td><td>{{ player['payout_address'] }} BTC</td><td>{{ '%0.8f'|format(player['bet']) }} BTC</td></tr>
+  <tr><td>{{ player['betting_address'] }}</td><td>{{ player['payout_address'] }}</td><td>{{ '%0.8f'|format(player['bet']) }} BTC</td></tr>
   {% endfor %}
 </table>
