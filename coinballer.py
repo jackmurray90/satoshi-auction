@@ -54,13 +54,10 @@ def game(game_id):
 def games():
   rate_limit()
   with Session(engine) as session:
-    games = session.query(Game).order_by(Game.finished.asc()).all()
-    def calculate_pot(game):
-      players = session.query(Player).where(Player.game == game)
-      return sum([player.bet for player in players])
+    games = session.query(Game).order_by(Game.pot.desc()).all()
     games = [{
       'game_id': game.id,
-      'pot': calculate_pot(game),
+      'pot': game.pot,
       'status': 'Active' if not game.finished else 'Finished'
       } for game in games]
     return render_template('games.html', games=games)

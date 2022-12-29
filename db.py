@@ -11,6 +11,7 @@ class Game(Base):
   height = Column(Integer)
   players = relationship('Player')
   finished = Column(Boolean)
+  pot = Column(Numeric(16, 8), default=0)
 
 class Player(Base):
   __tablename__ = 'players'
