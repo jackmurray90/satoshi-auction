@@ -18,7 +18,7 @@ def get_height():
     try:
       rpc = AuthServiceProxy(BITCOIN)
       return rpc.getblockcount() - MINCONF
-    except CannotSendRequest:
+    except:
       sleep(1)
 
 def get_incoming_txs(height):
@@ -31,7 +31,7 @@ def get_incoming_txs(height):
         if tx['category'] == 'receive' and tx['blockheight'] == height:
           incoming_txs.append((tx['address'], tx['amount']))
       return incoming_txs
-    except CannotSendRequest:
+    except:
       sleep(1)
 
 def send(address, amount):
@@ -39,7 +39,7 @@ def send(address, amount):
     try:
       rpc = AuthServiceProxy(BITCOIN)
       rpc.send({address: amount})
-    except CannotSendRequest:
+    except:
       sleep(1)
 
 def get_new_address():
@@ -47,7 +47,7 @@ def get_new_address():
     try:
       rpc = AuthServiceProxy(BITCOIN)
       return rpc.getnewaddress()
-    except CannotSendRequest:
+    except:
       sleep(1)
 
 def round_down(amount):
