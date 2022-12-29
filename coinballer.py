@@ -58,6 +58,6 @@ def games():
     games = [{
       'game_id': game.id,
       'pot': game.pot,
-      'status': 'Active' if not game.finished else 'Finished'
+      'deadline': game.height + 144 if not game.finished else None
       } for game in games]
     return render_template('games.html', games=games)
