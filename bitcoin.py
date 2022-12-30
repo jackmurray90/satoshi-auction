@@ -60,7 +60,7 @@ if __name__ == '__main__':
     while True:
       height = session.query(Height).one().height
       while height < get_height():
-        for address, return_address, amount in get_incoming_txs(asset.height):
+        for address, return_address, amount in get_incoming_txs(height):
           try:
             [auction] = session.query(Auction).where(Auction.address == address)
           except:
