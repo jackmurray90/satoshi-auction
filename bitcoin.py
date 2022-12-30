@@ -79,4 +79,4 @@ if __name__ == '__main__':
             send(winner.payout_address, payout)
           game.finished = True
           session.commit()
-        sleep(1)
+      sleep(1)
