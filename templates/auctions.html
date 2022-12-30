@@ -3,12 +3,12 @@
   body { text-align: center; }
   table { border-collapse: collapse; margin: 1em auto; }
   th, td { border: 1px solid #ccc; padding: 0.5em; }
-  ul, li { margin: 0; }
+  img { vertical-align: middle; }
 </style>
 
 <title>Satoshi Auction</title>
 
-<h1>Satoshi Auctions</h1>
+<h1><img src="/hammer.png" width="100px"/> Satoshi Auctions</h1>
 
 <table>
   <tr><th>Auction</th><th>Prize</th><th>Maximum Bid</th><th>Deadline</th></tr>
@@ -16,7 +16,7 @@
   <tr>
     <td><a href="/auction/{{ auction['auction_id'] }}">Auction {{ auction['auction_id'] }}</a></td>
     <td>{{ '%0.8f'|format(auction['prize']) }} BTC</td>
-    <td>{{ '%0.8f'|format(auction['maximum_bid'] }} BTC</td>
+    <td>{{ '%0.8f'|format(auction['maximum_bid']) }} BTC</td>
     {% if auction['deadline'] %}
       <td>Block {{ auction['deadline'] }}</td>
     {% else %}

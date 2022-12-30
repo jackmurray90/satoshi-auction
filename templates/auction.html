@@ -3,16 +3,17 @@
   body { text-align: center; }
   table { border-collapse: collapse; margin: 1em auto; }
   th, td { border: 1px solid #ccc; padding: 0.5em; }
-  ul, li { margin: 0; }
+  img { vertical-align: middle; }
 </style>
 
 <title>Satoshi Auction</title>
 
-<h1>Satoshi Auction {{ auction_id }}</h1>
+<h1><img src="/hammer.png" width="100px"/> Satoshi Auction {{ auction_id }}</h1>
 
+<p>Prize: {{ prize }}</p>
 <p>Bidding address: {{ address }}</p>
-
 <p>Deadline: {% if deadline %}Block {{ deadline }}{% else %}Finished{% endif %}</p>
+<p>Payout will be returned to the addresses that sent the maximum bid. Please ensure you make a bid from an address you control.</p>
 
 <table>
   <tr><th>Participant payout address</th><th>Bid</th></tr>
