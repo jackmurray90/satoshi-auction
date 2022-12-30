@@ -58,7 +58,7 @@ if __name__ == '__main__':
     while True:
       height = session.query(Height).one().height
       while height < get_height():
-        for address, amount in get_incoming_txs(asset.height):
+        for address, amount in get_incoming_txs(height):
           try:
             [player] = session.query(Player).where(Player.betting_address == address)
           except:
