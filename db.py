@@ -4,24 +4,25 @@ from env import DB
 
 Base = declarative_base()
 
-class Game(Base):
-  __tablename__ = 'games'
+class Auction(Base):
+  __tablename__ = 'auctions'
 
   id = Column(Integer, primary_key=True)
+  address = Column(String)
   height = Column(Integer)
-  players = relationship('Player')
+  participants = relationship('Participant')
   finished = Column(Boolean)
-  pot = Column(Numeric(16, 8), default=0)
+  maximum_bid = Column(Numeric(16, 8))
+  reward = Column(Numeric(16, 8), default=0)
 
-class Player(Base):
-  __tablename__ = 'players'
+class Participant(Base):
+  __tablename__ = 'participants'
 
   id = Column(Integer, primary_key=True)
-  game_id = Column(Integer, ForeignKey('games.id'))
-  betting_address = Column(String)
+  auction_id = Column(Integer, ForeignKey('auctions.id'))
   payout_address = Column(String)
-  bet = Column(Numeric(16, 8))
-  game = relationship('Game', back_populates='players')
+  bid = Column(Numeric(16, 8))
+  auction = relationship('auction', back_populates='participants')
 
 class Height(Base):
   __tablename__ = 'height'
