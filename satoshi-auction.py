@@ -23,6 +23,7 @@ def auction(auction_id):
     return render_template(
         'auction.html',
         auction_id=auction.id,
+        prize=auction.prize,
         deadline=auction.deadline if auction.deadline > height else None,
         address=auction.address,
         participants=[{ 'payout_address': participant.payout_address, 'bid': participant.bid } for participant in auction.participants]
