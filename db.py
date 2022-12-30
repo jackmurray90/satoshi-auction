@@ -21,7 +21,7 @@ class Participant(Base):
   auction_id = Column(Integer, ForeignKey('auctions.id'))
   payout_address = Column(String)
   bid = Column(Numeric(16, 8))
-  auction = relationship('auction', back_populates='participants')
+  auction = relationship('Auction', back_populates='participants')
 
 class Height(Base):
   __tablename__ = 'height'
