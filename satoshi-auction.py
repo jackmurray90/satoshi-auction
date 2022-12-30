@@ -33,7 +33,7 @@ def auction(auction_id):
 def auctions():
   rate_limit()
   with Session(engine) as session:
-    auctions = session.query(Auction).order_by(Auction.id.desc()).all()
+    auctions = session.query(Auction).order_by(Auction.deadline.desc()).all()
     height = session.query(Height).one().height
     auctions = [{
       'auction_id': auction.id,

@@ -60,6 +60,7 @@ if __name__ == '__main__':
     while True:
       height = session.query(Height).one().height
       while height < get_height():
+        print("Processing block ", height)
         for address, return_address, amount in get_incoming_txs(height):
           try:
             [auction] = session.query(Auction).where(Auction.address == address)
@@ -90,9 +91,9 @@ if __name__ == '__main__':
           payout = auction.prize / len(winners)
           for winner in winners:
             send(winner.payout_address, payout)
-        running_auctions = session.query(Auction).filter_by(Auction.deadline > height).count()
-        if running_auctions < 10:
-          for i in range(10 - running_auction):
+        running_auctions = session.query(Auction).where(Auction.deadline > height).count()
+        if running_auctions < 5:
+          for i in range(5 - running_auctions):
             session.add(Auction(address=get_new_address(), deadline=height+144, maximum_bid=0, prize=0))
           session.commit()
       sleep(1)
