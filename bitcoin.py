@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from db import Game, Player, Height
+from db import Auction, Player, Height
 from sqlalchemy import create_engine
 from time import sleep
 from env import DB
@@ -29,7 +29,9 @@ def get_incoming_txs(height):
       incoming_txs = []
       for tx in txs['transactions']:
         if tx['category'] == 'receive' and tx['blockheight'] == height:
-          incoming_txs.append((tx['address'], tx['amount']))
+          rawtx = rpc.getrawtransaction(tx['txid'])
+          return_address = rpc.decodescript(rawtx['vin'][0]['scriptSig']['hex'])['addresses'][0]
+          incoming_txs.append((tx['address'], return_address, tx['amount']))
       return incoming_txs
     except:
       sleep(1)
@@ -58,24 +60,34 @@ if __name__ == '__main__':
     while True:
       height = session.query(Height).one().height
       while height < get_height():
-        for address, amount in get_incoming_txs(asset.height):
+        for address, return_address, amount in get_incoming_txs(asset.height):
           try:
-            [player] = session.query(Player).where(Player.betting_address == address)
+            [auction] = session.query(Auction).where(Auction.address == address)
           except:
             continue
-          player.bet += amount
-          player.game.height = height
-          player.game.pot += amount
+          if auction.deadline < height:
+            continue
+          participant = None
+          for p in game.participants:
+            if p.payout_address == return_address:
+              participant = p
+              break
+          if participant:
+            if participant.bid < amount:
+              participant.bid = amount
+          else:
+            session.add(Participant(auction=auction, payout_address=return_address, bid=amount))
+          auction.deadline = height + 144
+          auction.prize += round_down(amount * Decimal('0.98'))
+          aution.maximum_bid = max(auction.maximum_bid, amount)
           session.commit()
-        games = session.query(Game).where(Game.height == height - 144)
-        for game in games:
+        auctions = session.query(Auction).where(Auction.deadline == height)
+        for auction in auctions:
           winners = []
-          for player in game.players:
-            if player.bet == max([p.bet for p in players]):
-              winners.append(player)
-          payout = round_down(sum([p.bet for p in players]) * Decimal('0.98') / len(winners))
+          for participant in auction.participants:
+            if participant.bet == auction.maximum_bid:
+              winners.append(participant)
+          payout = auction.prize / len(winners))
           for winner in winners:
             send(winner.payout_address, payout)
-          game.finished = True
-          session.commit()
-        sleep(1)
+      sleep(1)

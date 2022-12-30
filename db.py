@@ -12,7 +12,7 @@ class Auction(Base):
   deadline = Column(Integer)
   participants = relationship('Participant')
   maximum_bid = Column(Numeric(16, 8))
-  reward = Column(Numeric(16, 8), default=0)
+  prize = Column(Numeric(16, 8), default=0)
 
 class Participant(Base):
   __tablename__ = 'participants'
