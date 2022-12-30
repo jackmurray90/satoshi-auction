@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from db import Auction, Player, Height
+from db import Auction, Participant, Height
 from sqlalchemy import create_engine
 from time import sleep
 from env import DB
@@ -87,7 +87,12 @@ if __name__ == '__main__':
           for participant in auction.participants:
             if participant.bet == auction.maximum_bid:
               winners.append(participant)
-          payout = auction.prize / len(winners))
+          payout = auction.prize / len(winners)
           for winner in winners:
             send(winner.payout_address, payout)
+        running_auctions = session.query(Auction).filter_by(Auction.deadline > height).count()
+        if running_auctions < 10:
+          for i in range(10 - running_auction):
+            session.add(Auction(address=get_new_address(), deadline=height+144, maximum_bid=0, prize=0))
+          session.commit()
       sleep(1)
