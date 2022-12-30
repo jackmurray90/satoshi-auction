@@ -63,10 +63,11 @@ if __name__ == '__main__':
             [player] = session.query(Player).where(Player.betting_address == address)
           except:
             continue
-          player.bet += amount
-          player.game.height = height
-          player.game.pot += amount
-          session.commit()
+          if not player.game.finished:
+            player.bet += amount
+            player.game.height = height
+            player.game.pot += amount
+            session.commit()
         games = session.query(Game).where(Game.height == height - 144)
         for game in games:
           winners = []
