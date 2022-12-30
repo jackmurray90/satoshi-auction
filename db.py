@@ -9,9 +9,8 @@ class Auction(Base):
 
   id = Column(Integer, primary_key=True)
   address = Column(String)
-  height = Column(Integer)
+  deadline = Column(Integer)
   participants = relationship('Participant')
-  finished = Column(Boolean)
   maximum_bid = Column(Numeric(16, 8))
   reward = Column(Numeric(16, 8), default=0)
 
