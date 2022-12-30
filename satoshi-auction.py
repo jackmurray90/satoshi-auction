@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
   with Session(engine) as session:
-    return render_template('index.html', total_auctions=session.query(Auction).count())
+    return render_template('index.html')
 
 @app.route('/auction/<auction_id>')
 def auction(auction_id):
