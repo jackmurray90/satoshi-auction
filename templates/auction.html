@@ -17,10 +17,10 @@
 <p>Bidding address: {{ address }}</p>
 <p>Deadline: {% if deadline %}Block {{ deadline }}{% else %}Finished{% endif %}</p>
 
-<h2>Winners</h2>
+<h2>Leaderboard</h2>
 <table>
   <tr><th>Participant payout address</th><th>Bid</th></tr>
-  {% for participant in participants %}
-  <tr><td>{{ participant['payout_address'] }}</td><td>{{ '%0.8f'|format(participant['bid']) }} BTC</td></tr>
+  {% for winner in winners %}
+  <tr><td>{{ winner['payout_address'] }}</td><td>{{ '%0.8f'|format(winner['bid']) }} BTC</td></tr>
   {% endfor %}
 </table>
