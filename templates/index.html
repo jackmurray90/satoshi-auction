@@ -22,11 +22,7 @@
     <td><a href="/auction/{{ auction['auction_id'] }}">Auction {{ auction['auction_id'] }}</a></td>
     <td>{{ '%0.8f'|format(auction['prize']) }} BTC</td>
     <td>{{ '%0.8f'|format(auction['maximum_bid']) }} BTC</td>
-    {% if auction['deadline'] %}
-      <td>Block {{ auction['deadline'] }}</td>
-    {% else %}
-      <td>Finished</td>
-    {% endif %}
+    <td>Block {{ auction['deadline'] }}</td>
     <td>{{ auction['address'] }}</td>
   </tr>
   {% endfor %}

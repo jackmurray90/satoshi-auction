@@ -17,7 +17,7 @@ def index():
           'auction_id': auction.id,
           'prize': auction.prize,
           'maximum_bid': auction.maximum_bid,
-          'deadline': auction.deadline if auction.deadline > height else None,
+          'deadline': auction.deadline,
           'address': auction.address,
           } for auction in auctions]
       )
