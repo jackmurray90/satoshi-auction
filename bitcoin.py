@@ -9,9 +9,9 @@ from decimal import Decimal
 from env import BITCOIN, DB
 from http.client import CannotSendRequest
 from hashlib import sha256
+from bitcoinrpc.authproxy import JSONRPCException
 
 MINCONF = 2
-
 
 def get_height():
   while True:
@@ -29,25 +29,32 @@ def get_incoming_txs(height):
       incoming_txs = []
       for tx in txs['transactions']:
         if tx['category'] == 'receive' and tx['blockheight'] == height:
-          rawtx = rpc.getrawtransaction(tx['txid'])
-          return_addrress = None
+          rawtx = rpc.getrawtransaction(tx['txid'], True)
+          return_address = None
           for vin in rawtx['vin']:
             try:
-              return_address = rpc.decodescript(vin['scriptSig']['hex'])['addresses'][0]
+              txid = vin['txid']
+            except:
+              continue
+            out = rpc.getrawtransaction(txid, True) # the transaction that sent to us
+            try:
+              return_address = out['vout'][vin['vout']]['scriptPubKey']['address']
               break
             except:
-              pass
+              continue
           if return_address:
             incoming_txs.append((tx['address'], return_address, tx['amount']))
       return incoming_txs
-    except:
+    except Exception as e:
       sleep(1)
 
 def send(address, amount):
   while True:
     try:
       rpc = AuthServiceProxy(BITCOIN)
-      rpc.send({address: amount})
+      return rpc.send({address: amount})
+    except JSONRPCException:
+      return
     except:
       sleep(1)
 
@@ -70,6 +77,7 @@ if __name__ == '__main__':
       while height < get_height():
         print("Processing height", height)
         for address, return_address, amount in get_incoming_txs(height):
+          print("Processing bid from", return_address, "to", address, "for", amount)
           try:
             [auction] = session.query(Auction).where(Auction.address == address)
           except:
@@ -77,7 +85,7 @@ if __name__ == '__main__':
           if auction.deadline < height:
             continue
           participant = None
-          for p in game.participants:
+          for p in auction.participants:
             if p.payout_address == return_address:
               participant = p
               break
@@ -88,7 +96,7 @@ if __name__ == '__main__':
             session.add(Participant(auction=auction, payout_address=return_address, bid=amount))
           auction.deadline = height + 144
           auction.prize += round_down(amount * Decimal('0.98'))
-          aution.maximum_bid = max(auction.maximum_bid, amount)
+          auction.maximum_bid = max(auction.maximum_bid, amount)
           session.commit()
         auctions = session.query(Auction).where(Auction.deadline == height)
         for auction in auctions:
@@ -102,7 +110,7 @@ if __name__ == '__main__':
         running_auctions = session.query(Auction).where(Auction.deadline > height).count()
         if running_auctions < 5:
           for i in range(5 - running_auctions):
-            session.add(Auction(address=get_new_address(), deadline=height+144, maximum_bid=0, prize=0))
+            session.add(Auction(address=get_new_address(), deadline=height+144, maximum_bid=0, prize=Decimal('0.00010000')))
         heightstore.height += 1
         height = heightstore.height
         session.commit()
