@@ -30,8 +30,15 @@ def get_incoming_txs(height):
       for tx in txs['transactions']:
         if tx['category'] == 'receive' and tx['blockheight'] == height:
           rawtx = rpc.getrawtransaction(tx['txid'])
-          return_address = rpc.decodescript(rawtx['vin'][0]['scriptSig']['hex'])['addresses'][0]
-          incoming_txs.append((tx['address'], return_address, tx['amount']))
+          return_addrress = None
+          for vin in rawtx['vin']:
+            try:
+              return_address = rpc.decodescript(vin['scriptSig']['hex'])['addresses'][0]
+              break
+            except:
+              pass
+          if return_address:
+            incoming_txs.append((tx['address'], return_address, tx['amount']))
       return incoming_txs
     except:
       sleep(1)
