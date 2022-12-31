@@ -10,17 +10,25 @@ app = Flask(__name__)
 def index():
   with Session(engine) as session:
     height = session.query(Height).one().height
-    auctions = session.query(Auction).where(Auction.deadline > height).order_by(Auction.price.desc()).all()
+    auctions = session.query(Auction).where(Auction.deadline > height).order_by(Auction.prize.desc()).all()
     return render_template(
         'index.html',
         auctions=[{
           'auction_id': auction.id,
           'prize': auction.prize,
           'maximum_bid': auction.maximum_bid,
-          'deadline': auction.deadline if auction.deadline > height else None,
+          'deadline': auction.deadline,
           'address': auction.address,
           } for auction in auctions]
       )
+
+@app.route('/rules')
+def rules():
+  return render_template('rules.html')
+
+@app.route('/about')
+def about():
+  return render_template('about.html')
 
 @app.route('/auction/<auction_id>')
 def auction(auction_id):
@@ -44,15 +52,13 @@ def auction(auction_id):
 def auctions():
   rate_limit()
   with Session(engine) as session:
-    auctions = session.query(Auction).order_by(Auction.id.desc()).all()
     height = session.query(Height).one().height
+    auctions = session.query(Auction).where(Auction.deadline <= height).order_by(Auction.id.desc()).all()
     return render_template(
-        'index.html',
+        'auctions.html',
         auctions=[{
           'auction_id': auction.id,
           'prize': auction.prize,
           'maximum_bid': auction.maximum_bid,
-          'deadline': auction.deadline if auction.deadline > height else None,
-          'address': auction.address,
           } for auction in auctions]
       )
