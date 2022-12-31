@@ -11,7 +11,7 @@ from http.client import CannotSendRequest
 from hashlib import sha256
 from bitcoinrpc.authproxy import JSONRPCException
 
-MINCONF = 2
+MINCONF = 3
 
 def get_height():
   while True:
