@@ -9,7 +9,28 @@
 
 <h1><img src="/hammer.png" width="100px"/> Satoshi Auction</h1>
 
-<p>Welcome to Satoshi Auction. Click <a href="/auctions">here</a> to see a list of auctions we host.</p>
+<p>Welcome to Satoshi Auction.</p>
+
+<p>Payout will be returned to the addresses that sent the maximum bid. Please ensure you make a bid from an address you control.</p>
+
+<table>
+  <tr><th>Auction</th><th>Prize</th><th>Maximum bid so far</th><th>Deadline</th><th>Address</th></tr>
+  {% for auction in auctions %}
+  <tr>
+    <td><a href="/auction/{{ auction['auction_id'] }}">Auction {{ auction['auction_id'] }}</a></td>
+    <td>{{ '%0.8f'|format(auction['prize']) }} BTC</td>
+    <td>{{ '%0.8f'|format(auction['maximum_bid']) }} BTC</td>
+    {% if auction['deadline'] %}
+      <td>Block {{ auction['deadline'] }}</td>
+    {% else %}
+      <td>Finished</td>
+    {% endif %}
+    <td>{{ auction['address'] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<p>Click <a href="/auctions">here</a> to see a list of every auction that has been held on the website.</p>
 
 <h2>Rules</h2>
 
