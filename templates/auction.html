@@ -10,10 +10,11 @@
 
 <h1><img src="/hammer.png" width="100px"/> Satoshi Auction {{ auction_id }}</h1>
 
-<p>Prize: {{ prize }}</p>
+<p>Prize: {{ '%0.8f'%prize }}</p>
 <p>Bidding address: {{ address }}</p>
 <p>Deadline: {% if deadline %}Block {{ deadline }}{% else %}Finished{% endif %}</p>
 
+<h2>Winners</h2>
 <table>
   <tr><th>Participant payout address</th><th>Bid</th></tr>
   {% for participant in participants %}
