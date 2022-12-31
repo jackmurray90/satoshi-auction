@@ -5,9 +5,12 @@
   img { vertical-align: middle; }
   table { border-collapse: collapse; margin: 1em auto; }
   th, td { border: 1px solid #ccc; padding: 0.5em; }
+  #nav a { padding: 0 2em; }
 </style>
 
 <title>Satoshi Auction</title>
+
+<p id="nav"><a href="/auctions">Past Auctions</a> <a href="/rules">Rules</a> <a href="/about">About</a></p>
 
 <h1><img src="/hammer.png" width="100px"/> Satoshi Auction</h1>
 
@@ -27,27 +30,3 @@
   </tr>
   {% endfor %}
 </table>
-
-<p>Click <a href="/auctions">here</a> to see a list of every auction that has been held on the website.</p>
-
-<h2>Rules</h2>
-
-<p>The prize starts off as 10k satoshis.</p>
-
-<p>Anybody can make a bid for the prize, at any time.</p>
-
-<p>98% of each bid is added to the prize.</p>
-
-<p>The auction ends when 144 bitcoin blocks have passed without a bid. This will take appoximately one day.</p>
-
-<p>The participant who has made the maximum bid wins the prize.</p>
-
-<p>In the case of tie, funds are distributed equally and any fractional remainder is left with the host.</p>
-
-<h2>About</h2>
-
-<p>The source code for this host is <a href="https://github.com/jackmurray90/satoshi-auction">open source</a> and we are hosted by Google Cloud.</p>
-
-<p>This host is operated by <a href="https://murray.software/">Jack Murray</a>, a software engineer who lives in Melbourne, Australia.</p>
-
-<p>The Satoshi Auction concept is based on the game of <a href="https://coinballer.net">Coinballer</a>.</p>

@@ -4,9 +4,12 @@
   table { border-collapse: collapse; margin: 1em auto; }
   th, td { border: 1px solid #ccc; padding: 0.5em; }
   img { vertical-align: middle; }
+  #nav a { padding: 0 2em; }
 </style>
 
 <title>Satoshi Auction</title>
+
+<p id="nav"><a href="/">Current Auctions</a> <a href="/auctions">Past Auctions</a> <a href="/rules">Rules</a> <a href='/about'>About</a></p>
 
 <h1><img src="/hammer.png" width="100px"/> Satoshi Auction {{ auction_id }}</h1>
 
@@ -21,4 +24,3 @@
   <tr><td>{{ participant['payout_address'] }}</td><td>{{ '%0.8f'|format(participant['bid']) }} BTC</td></tr>
   {% endfor %}
 </table>
-<p><a href="/">Back to list of auctions</a>.</p>

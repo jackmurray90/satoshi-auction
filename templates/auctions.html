@@ -4,26 +4,22 @@
   table { border-collapse: collapse; margin: 1em auto; }
   th, td { border: 1px solid #ccc; padding: 0.5em; }
   img { vertical-align: middle; }
+  #nav a { padding: 0 2em; }
 </style>
 
 <title>Satoshi Auction</title>
 
-<h1><img src="/hammer.png" width="100px"/> Satoshi Auctions</h1>
+<p id="nav"><a href="/">Current Auctions</a> <a href="/rules">Rules</a> <a href='/about'>About</a></p>
 
-<p><a href="/">Back to rules</a>.</p>
+<h1><img src="/hammer.png" width="100px"/> Past Satoshi Auctions</h1>
+
 <table>
-  <tr><th>Auction</th><th>Prize</th><th>Maximum bid so far</th><th>Deadline</th><th>Address</th></tr>
+  <tr><th>Auction</th><th>Prize</th><th>Maximum bid</th></tr>
   {% for auction in auctions %}
   <tr>
     <td><a href="/auction/{{ auction['auction_id'] }}">Auction {{ auction['auction_id'] }}</a></td>
     <td>{{ '%0.8f'|format(auction['prize']) }} BTC</td>
     <td>{{ '%0.8f'|format(auction['maximum_bid']) }} BTC</td>
-    {% if auction['deadline'] %}
-      <td>Block {{ auction['deadline'] }}</td>
-    {% else %}
-      <td>Finished</td>
-    {% endif %}
-    <td>{{ auction['address'] }}</td>
   </tr>
   {% endfor %}
 </table>
