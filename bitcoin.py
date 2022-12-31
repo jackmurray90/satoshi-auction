@@ -102,11 +102,12 @@ if __name__ == '__main__':
         for auction in auctions:
           winners = []
           for participant in auction.participants:
-            if participant.bet == auction.maximum_bid:
+            if participant.bid == auction.maximum_bid:
               winners.append(participant)
-          payout = auction.prize / len(winners)
-          for winner in winners:
-            send(winner.payout_address, payout)
+          if len(winners) > 0:
+            payout = auction.prize / len(winners)
+            for winner in winners:
+              send(winner.payout_address, payout)
         running_auctions = session.query(Auction).where(Auction.deadline > height).count()
         if running_auctions < 5:
           for i in range(5 - running_auctions):
