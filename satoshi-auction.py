@@ -10,7 +10,7 @@ app = Flask(__name__)
 def index():
   with Session(engine) as session:
     height = session.query(Height).one().height
-    auctions = session.query(Auction).where(Auction.deadline > height).order_by(Auction.price.desc()).all()
+    auctions = session.query(Auction).where(Auction.deadline > height).order_by(Auction.prize.desc()).all()
     return render_template(
         'index.html',
         auctions=[{
