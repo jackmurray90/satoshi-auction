@@ -47,7 +47,7 @@ def auctions():
     auctions = session.query(Auction).order_by(Auction.id.desc()).all()
     height = session.query(Height).one().height
     return render_template(
-        'index.html',
+        'auctions.html',
         auctions=[{
           'auction_id': auction.id,
           'prize': auction.prize,
