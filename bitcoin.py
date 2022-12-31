@@ -58,9 +58,10 @@ def round_down(amount):
 if __name__ == '__main__':
   with Session(create_engine(DB)) as session:
     while True:
-      height = session.query(Height).one().height
+      heightstore = session.query(Height).one()
+      height = heightstore.height
       while height < get_height():
-        print("Processing block ", height)
+        print("Processing height", height)
         for address, return_address, amount in get_incoming_txs(height):
           try:
             [auction] = session.query(Auction).where(Auction.address == address)
@@ -95,5 +96,7 @@ if __name__ == '__main__':
         if running_auctions < 5:
           for i in range(5 - running_auctions):
             session.add(Auction(address=get_new_address(), deadline=height+144, maximum_bid=0, prize=0))
-          session.commit()
-      sleep(1)
+        heightstore.height += 1
+        height = heightstore.height
+        session.commit()
+        sleep(1)
