@@ -27,7 +27,7 @@ def rules():
   return render_template('rules.html')
 
 @app.route('/about')
-def rules():
+def about():
   return render_template('about.html')
 
 @app.route('/auction/<auction_id>')
