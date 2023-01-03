@@ -45,6 +45,7 @@ def auction(auction_id):
         prize=auction.prize,
         deadline=auction.deadline if auction.deadline > height else None,
         address=auction.address,
+        confirmed_height=get_height(),
         winners=[{ 'payout_address': winner.payout_address, 'bid': winner.bid } for winner in auction.participants if winner.bid == auction.maximum_bid]
         )
 

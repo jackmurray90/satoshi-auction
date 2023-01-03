@@ -17,6 +17,7 @@
   <tr><th>Prize</th><td>{{ '%0.8f'%prize }} BTC</td></tr>
   <tr><th>Bidding address</th><td>{{ address }}</td></tr>
   <tr><th>Deadline</th><td>{% if deadline %}Block {{ deadline }}{% else %}Finished{% endif %}</td></tr>
+  <tr><th>Confirmed block height</th><td>Block {{ confirmed_height }}</td></tr>
 </table>
 
 <h2>Leaderboard</h2>
