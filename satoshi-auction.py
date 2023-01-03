@@ -3,11 +3,13 @@ from db import Auction, RateLimit, Height, engine
 from sqlalchemy.orm import Session
 from rate_limit import rate_limit
 from bitcoin import get_new_address, get_height
+from geoip import is_australia
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
+  if is_australia(): return redirect('/australia')
   with Session(engine) as session:
     height = session.query(Height).one().height
     auctions = session.query(Auction).where(Auction.deadline > height).order_by(Auction.prize.desc()).all()
@@ -24,15 +26,18 @@ def index():
 
 @app.route('/rules')
 def rules():
+  if is_australia(): return redirect('/australia')
   return render_template('rules.html')
 
 @app.route('/about')
 def about():
+  if is_australia(): return redirect('/australia')
   return render_template('about.html')
 
 @app.route('/auction/<auction_id>')
 def auction(auction_id):
   rate_limit()
+  if is_australia(): return redirect('/australia')
   with Session(engine) as session:
     try:
       [auction] = session.query(Auction).where(Auction.id == auction_id)
@@ -52,6 +57,7 @@ def auction(auction_id):
 @app.route('/auctions')
 def auctions():
   rate_limit()
+  if is_australia(): return redirect('/australia')
   with Session(engine) as session:
     height = session.query(Height).one().height
     auctions = session.query(Auction).where(Auction.deadline <= height).order_by(Auction.id.desc()).all()
@@ -63,3 +69,7 @@ def auctions():
           'maximum_bid': auction.maximum_bid,
           } for auction in auctions]
       )
+
+@app.route('/australia')
+def australia():
+  return render_template('australia.html')
