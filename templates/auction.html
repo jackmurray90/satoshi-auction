@@ -9,14 +9,17 @@
 
 <title>Satoshi Auction</title>
 
-<p id="nav"><a href="/">Current Auctions</a> <a href="/auctions">Past Auctions</a> <a href="/rules">Rules</a> <a href='/about'>About</a></p>
+<p id="nav"><a href="https://decision.casino/"><img src="/yin-yang.png" width="32px"/></a> <a href="/">Current Auctions</a> <a href="/auctions">Past Auctions</a> <a href="/rules">Rules</a> <a href='/about'>About</a></p>
 
-<h1><img src="/hammer.png" width="100px"/> Satoshi Auction {{ auction_id }}</h1>
+<h1><img src="/hammer.png" width="512px"/></h1>
+
+<h2>Game {{ auction_id }}</h2>
 
 <table>
   <tr><th>Prize</th><td>{{ '%0.8f'%prize }} BTC</td></tr>
   <tr><th>Bidding address</th><td>{{ address }}</td></tr>
   <tr><th>Deadline</th><td>{% if deadline %}Block {{ deadline }}{% else %}Finished{% endif %}</td></tr>
+  <tr><th>Confirmed block height</th><td>Block {{ confirmed_height }}</td></tr>
 </table>
 
 <h2>Leaderboard</h2>
