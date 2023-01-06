@@ -28,7 +28,7 @@
     <td>{{ '%0.8f'|format(auction['prize']) }} BTC</td>
     <td>{{ '%0.8f'|format(auction['maximum_bid']) }} BTC</td>
     <td>Block {{ auction['deadline'] }}</td>
-    <td>{{ auction['address'] }}</td>
+    <td><a href="https://www.blockchain.com/explorer/addresses/btc/{{ auction['address'] }}">{{ auction['address'] }}</a></td>
   </tr>
   {% endfor %}
 </table>
