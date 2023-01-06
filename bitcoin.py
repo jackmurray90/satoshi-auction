@@ -83,6 +83,9 @@ if __name__ == '__main__':
           except:
             continue
           if auction.deadline < height:
+            amount -= Decimal('0.0001')
+            if amount >= Decimal('0.00005460'):
+              send(return_address, amount)
             continue
           participant = None
           for p in auction.participants:
