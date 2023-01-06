@@ -19,7 +19,7 @@
 
 <table>
   <tr><th>Prize</th><td>{{ '%0.8f'%prize }} BTC</td></tr>
-  <tr><th>Bidding address</th><td>{{ address }}</td></tr>
+  <tr><th>Bidding address</th><td><a href="https://www.blockchain.com/explorer/addresses/btc/{{ address }}">{{ address }}</a></td></tr>
   <tr><th>Deadline</th><td>{% if deadline %}Block {{ deadline }}{% else %}Finished{% endif %}</td></tr>
   <tr><th>Confirmed block height</th><td>Block {{ confirmed_height }}</td></tr>
 </table>
@@ -28,6 +28,6 @@
 <table>
   <tr><th>Participant payout address</th><th>Bid</th></tr>
   {% for winner in winners %}
-  <tr><td>{{ winner['payout_address'] }}</td><td>{{ '%0.8f'|format(winner['bid']) }} BTC</td></tr>
+  <tr><td><a href="https://www.blockchain.com/explorer/addresses/btc/{{ winner['payout_address'] }}">{{ winner['payout_address'] }}</a></td><td>{{ '%0.8f'|format(winner['bid']) }} BTC</td></tr>
   {% endfor %}
 </table>
