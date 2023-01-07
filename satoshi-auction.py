@@ -30,13 +30,14 @@ def index():
   with Session(engine) as session:
     height = session.query(Height).one().height
     auctions = session.query(Auction).where(Auction.deadline > height).order_by(Auction.prize.desc()).all()
+    real_height = get_real_height()
     return render_template(
         'index.html',
         auctions=[{
           'auction_id': auction.id,
           'prize': auction.prize,
           'maximum_bid': auction.maximum_bid,
-          'deadline': auction.deadline,
+          'countdown': auction.deadline - real_height if auction.deadline > real_height else 'Auction is finished',
           'address': auction.address,
           } for auction in auctions]
       )
