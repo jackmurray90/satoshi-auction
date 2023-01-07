@@ -13,6 +13,14 @@ from bitcoinrpc.authproxy import JSONRPCException
 
 MINCONF = 4
 
+def get_real_height():
+  while True:
+    try:
+      rpc = AuthServiceProxy(BITCOIN)
+      return rpc.getblockcount()
+    except:
+      sleep(1)
+
 def get_height():
   while True:
     try:

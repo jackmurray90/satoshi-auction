@@ -2,7 +2,7 @@ from flask import Flask, redirect, request, render_template, make_response
 from db import Auction, RateLimit, Height, engine
 from sqlalchemy.orm import Session
 from rate_limit import rate_limit
-from bitcoin import get_new_address, get_height
+from bitcoin import get_new_address, get_height, get_real_height
 from geoip import is_australia
 from decimal import Decimal
 from math import floor
@@ -61,13 +61,15 @@ def auction(auction_id):
     except:
       return 'Auction not found.'
     height = session.query(Height).one().height
+    countdown = auction.deadline - get_real_height()
+    if countdown < 0:
+      countdown = 'Auction is finished'
     return render_template(
         'auction.html',
         auction_id=auction.id,
         prize=auction.prize,
-        deadline=auction.deadline if auction.deadline > height else None,
+        countdown=countdown,
         address=auction.address,
-        confirmed_height=get_height(),
         winners=[{ 'payout_address': winner.payout_address, 'bid': winner.bid } for winner in auction.participants if winner.bid == auction.maximum_bid]
         )
 
