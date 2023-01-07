@@ -86,7 +86,7 @@ def get_unconfirmed_participants(address):
                   'payout_address': return_address,
                   'bid': tx['amount']
                   }
-      return [particpants[p] for p in participants]
+      return [participants[p] for p in participants]
     except:
       sleep(1)
 
