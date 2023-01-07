@@ -25,8 +25,8 @@
   {% for auction in auctions %}
   <tr>
     <td><a href="/auction/{{ auction['auction_id'] }}">Auction {{ auction['auction_id'] }}</a></td>
-    <td>{{ '%0.8f'|format(auction['prize']) }} BTC</td>
-    <td>{{ '%0.8f'|format(auction['maximum_bid']) }} BTC</td>
+    <td>{{ auction['prize']|format_decimal(8) }} BTC</td>
+    <td>{{ auction['maximum_bid']|format_decimal(8) }} BTC</td>
     <td>Block {{ auction['deadline'] }}</td>
     <td><a href="https://www.blockchain.com/explorer/addresses/btc/{{ auction['address'] }}">{{ auction['address'] }}</a></td>
   </tr>
