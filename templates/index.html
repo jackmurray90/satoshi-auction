@@ -21,7 +21,7 @@
 <p>Please allow 5 confirmations before your transaction will appear on the site.</p>
 
 <table>
-  <tr><th>Auction</th><th>Prize</th><th>Maximum bid so far</th><th>Deadline</th><th>Address</th></tr>
+  <tr><th>Auction</th><th>Prize</th><th>Maximum confirmed bid</th><th>Deadline</th><th>Address</th></tr>
   {% for auction in auctions %}
   <tr>
     <td><a href="/auction/{{ auction['auction_id'] }}">Auction {{ auction['auction_id'] }}</a></td>
