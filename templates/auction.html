@@ -23,10 +23,13 @@
   <tr><th>Blocks until end of auction</th><td>{{ countdown }}</td></tr>
 </table>
 
-<h2>Leaderboard</h2>
+<h2>Participants</h2>
 <table>
   <tr><th>Participant payout address</th><th>Bid</th></tr>
-  {% for winner in winners %}
-  <tr><td><a href="https://www.blockchain.com/explorer/addresses/btc/{{ winner['payout_address'] }}">{{ winner['payout_address'] }}</a></td><td>{{ winner['bid']|format_decimal(8) }} BTC</td></tr>
+  {% for participant in participants %}
+    <tr>
+      <td><a href="https://www.blockchain.com/explorer/addresses/btc/{{ participant['payout_address'] }}">{{ participant['payout_address'] }}</a></td>
+      <td>{{ participant['bid']|format_decimal(8) }} BTC</td>
+    </tr>
   {% endfor %}
 </table>

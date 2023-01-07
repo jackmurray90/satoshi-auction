@@ -56,6 +56,40 @@ def get_incoming_txs(height):
     except Exception as e:
       sleep(1)
 
+def get_unconfirmed_participants(address):
+  while True:
+    try:
+      rpc = AuthServiceProxy(BITCOIN)
+      txs = rpc.listsinceblock(rpc.getblockhash(get_height()))
+      participants = {}
+      for tx in txs['transactions']:
+        if tx.get('category') == 'receive' and tx.get('address') == address:
+          rawtx = rpc.getrawtransaction(tx['txid'], True)
+          return_address = None
+          for vin in rawtx['vin']:
+            try:
+              txid = vin['txid']
+            except:
+              continue
+            out = rpc.getrawtransaction(txid, True) # the transaction that sent to us
+            try:
+              return_address = out['vout'][vin['vout']]['scriptPubKey']['address']
+              break
+            except:
+              continue
+          if return_address:
+            if return_address in participants:
+              if participants[return_address]['bid'] < tx['amount']:
+                partipants[return_address]['bid'] = tx['amount']
+            else:
+              participants[return_address] = {
+                  'payout_address': return_address,
+                  'bid': tx['amount']
+                  }
+      return [particpants[p] for p in participants]
+    except:
+      sleep(1)
+
 def send(address, amount):
   while True:
     try:

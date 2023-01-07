@@ -2,7 +2,7 @@ from flask import Flask, redirect, request, render_template, make_response
 from db import Auction, RateLimit, Height, engine
 from sqlalchemy.orm import Session
 from rate_limit import rate_limit
-from bitcoin import get_new_address, get_height, get_real_height
+from bitcoin import get_new_address, get_height, get_real_height, get_unconfirmed_participants
 from geoip import is_australia
 from decimal import Decimal
 from math import floor
@@ -64,13 +64,20 @@ def auction(auction_id):
     countdown = auction.deadline - get_real_height()
     if countdown < 0:
       countdown = 'Auction is finished'
+    participants = dict([(p.payout_address, {'payout_address': p.payout_address, 'bid': p.bid}) for p in auction.participants])
+    for p in get_unconfirmed_participants(auction.address):
+      if p['payout_address'] in participants:
+        if p['bid'] > participants[p['payout_address']]['bid']:
+          participants[p['payout_address']]['bid'] = p['bid']
+      else:
+        participants[p['payout_address']] = p
     return render_template(
         'auction.html',
         auction_id=auction.id,
         prize=auction.prize,
         countdown=countdown,
         address=auction.address,
-        winners=[{ 'payout_address': winner.payout_address, 'bid': winner.bid } for winner in auction.participants if winner.bid == auction.maximum_bid]
+        participants=[participants[p] for p in participants]
         )
 
 @app.route('/auctions')
